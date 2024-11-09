@@ -1,0 +1,16 @@
+- id: '1731173374620'
+  alias: HP watertemperatuur setpoint
+  description: ''
+  triggers:
+  - entity_id:
+    - sensor.stooklijn_target
+    trigger: state
+  conditions: []
+  actions:
+  - action: modbus.write_register
+    data:
+      hub: HP_modbus_hub
+      slave: 1
+      address: 2
+      value: '{{ states(''sensor.stooklijn_target'') | float(20) * 10 }} '
+  mode: single
