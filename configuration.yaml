@@ -30,7 +30,7 @@ input_number:
 
 template:
   - sensor:
-      - name: "HP_outdoor_air_temp"
+      - name: "HP_outdoor_air_temp_placeholder"
         unit_of_measurement: "°C"
         state: >
           {{ 7.4 | float(0) }}
@@ -38,7 +38,7 @@ template:
         unique_id: Stooklijn_Target_id
         unit_of_measurement: "°C"
         state: >
-          {% set oat = states('sensor.HP_outdoor_air_temp') | float(0) %}
+          {% set oat = states('sensor.HP_outdoor_air_temp_placeholder') | float(0) %}
           {% set  z = ((states('input_number.stooklijn_min_wtemp') | float(0)) - (states('input_number.stooklijn_max_wtemp') | float(0) )) / ((states('input_number.stooklijn_max_oat') | float(0) ) - (states('input_number.stooklijn_min_oat') | float(0) )) %}
           {% if oat < (states('input_number.stooklijn_min_oat') | float(0)) %}
           {% set oat = states('input_number.stooklijn_min_oat') | float(0) %}
