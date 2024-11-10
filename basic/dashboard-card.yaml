@@ -1,0 +1,52 @@
+type: custom:plotly-graph
+title: Stooklijn
+defaults:
+  entity:
+    show_value: false
+    line:
+      shape: line
+      width: 2
+    mode: lines+markers+text
+    texttemplate: "%{y}"
+    textposition: top center
+layout:
+  xaxis:
+    type: number
+    autorange: true
+entities:
+  - entity: ""
+    name: Stooklijn
+    unit_of_measurement: Watertemperatuur
+    x:
+      - -20
+      - $ex hass.states['input_number.stooklijn_min_oat'].state
+      - $ex hass.states['input_number.stooklijn_max_oat'].state
+      - 30
+    "y":
+      - $ex hass.states['input_number.stooklijn_max_wtemp'].state
+      - $ex hass.states['input_number.stooklijn_max_wtemp'].state
+      - $ex hass.states['input_number.stooklijn_min_wtemp'].state
+      - $ex hass.states['input_number.stooklijn_min_wtemp'].state
+  - entity: ""
+    name: Stooklijn + Offset
+    unit_of_measurement: Watertemperatuur
+    x:
+      - -20
+      - $ex hass.states['input_number.stooklijn_min_oat'].state
+      - $ex hass.states['input_number.stooklijn_max_oat'].state
+      - 30
+    "y":
+      - >-
+        $ex hass.states['input_number.stooklijn_max_wtemp'].state -
+        hass.states['input_number.stooklijn_offset'].state * -1
+      - >-
+        $ex hass.states['input_number.stooklijn_max_wtemp'].state -
+        hass.states['input_number.stooklijn_offset'].state * -1
+      - >-
+        $ex hass.states['input_number.stooklijn_min_wtemp'].state -
+        hass.states['input_number.stooklijn_offset'].state * -1
+      - >-
+        $ex hass.states['input_number.stooklijn_min_wtemp'].state -
+        hass.states['input_number.stooklijn_offset'].state * -1
+hours_to_show: 24
+refresh_interval: 10
