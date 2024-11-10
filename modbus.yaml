@@ -1,0 +1,490 @@
+  - name: HP_modbus_hub
+    type: serial
+    baudrate: 9600
+    bytesize: 8
+    method: rtu
+    parity: N
+    port: /dev/ttyHP
+    stopbits: 1
+    timeout: 1
+    
+    switches:
+    - name: HP_switch_onoff
+      address: 0
+      slave: 1
+      write_type: coil
+      verify:
+    - name: HP_switch_silent
+      address: 2
+      slave: 1
+      write_type: coil
+      verify:
+        
+    sensors:
+    ##input
+    - name: HP_compressor_hz
+      scale: 1
+      precision: 1
+      scan_interval: 9
+      address: 24
+      slave: 1
+      unit_of_measurement: Hz
+      input_type: input
+      
+    - name: HP_error_code
+      scan_interval: 129
+      address: 0
+      slave: 1
+      input_type: input
+    
+#    - name: HP_ODU_operation_cycle
+#      scan_interval: 300
+#      address: 1
+#      slave: 1
+#      input_type: input
+    
+    - name: HP_water_inlet_temp
+      scale: 0.1
+      precision: 1
+      scan_interval: 11
+      address: 2
+      slave: 1
+      unit_of_measurement: °C
+      input_type: input
+    
+    - name: HP_water_outlet_temp
+      scale: 0.1
+      precision: 1
+      scan_interval: 13
+      address: 3
+      slave: 1
+      unit_of_measurement: °C
+      input_type: input
+      
+#    - name: HP_backup_heater_outlet_temp
+#      scale: 0.1
+#      precision: 1
+#      scan_interval: 120
+#      address: 4
+#      slave: 1
+#      unit_of_measurement: °C
+#      input_type: input
+      
+#    - name: HP_dhw_water_temp
+#      scale: 0.1
+#      precision: 1
+#      scan_interval: 120
+#      address: 5
+#      slave: 1
+#      unit_of_measurement: °C
+#      input_type: input        
+      
+#    - name: HP_solar_collector_temp
+#      scale: 0.1
+#      precision: 1
+#      scan_interval: 120
+#      address: 6
+#      slave: 1
+#      unit_of_measurement: °C
+#      input_type: input
+      
+#    - name: HP_room_air_temp_circuit1
+#      scale: 0.1
+#      precision: 1
+#      scan_interval: 120
+#      address: 7
+#      slave: 1
+#      unit_of_measurement: °C
+#      input_type: input
+
+    - name: HP_temp_suction
+      scale: 0.1
+      precision: 1
+      scan_interval: 20
+      address: 18
+      slave: 1
+      unit_of_measurement: "°C"
+      input_type: input
+ 
+    - name: HP_temp_hex
+      scale: 0.1
+      precision: 1
+      scan_interval: 20
+      address: 20
+      slave: 1
+      unit_of_measurement: "°C"
+      input_type: input
+      
+    - name: HP_low_press
+      scale: 0.01
+      precision: 2
+      scan_interval: 20
+      address: 23
+      slave: 1
+      unit_of_measurement: "Bar"
+      input_type: input
+
+    - name: HP_high_press
+      scale: 0.01
+      precision: 2
+      scan_interval: 20
+      address: 22
+      slave: 1
+      unit_of_measurement: "Bar"
+      input_type: input
+      
+    - name: HP_current_flow_rate
+      scale: 0.1
+      precision: 1
+      scan_interval: 7
+      address: 8
+      slave: 1
+      unit_of_measurement: l/min
+      input_type: input
+      
+#    - name: HP_flow_temp_circuit2
+#      scale: 0.1
+#      precision: 1
+#      scan_interval: 120
+#      address: 9
+#      slave: 1
+#      unit_of_measurement: °C
+#      input_type: input
+      
+#    - name: HP_room_air_temp_circuit2
+#      scale: 0.1
+#      precision: 1
+#      scan_interval: 300
+#      address: 10
+#      slave: 1
+#      unit_of_measurement: °C
+#      input_type: input
+      
+#    - name: HP_energy_state_input
+#      scan_interval: 120
+#      address: 11
+#      slave: 1
+#      input_type: input
+      
+    - name: HP_outdoor_air_temp
+      scale: 0.1
+      precision: 1
+      scan_interval: 127
+      address: 12
+      slave: 1
+      unit_of_measurement: °C
+      input_type: input
+      
+#    - name: HP_fan_speed
+#      scale: 1
+#      precision: 0
+#      scan_interval: 120
+#      address: 19
+#      slave: 1
+#      unit_of_measurement: rpm
+#      input_type: input
+        
+#    - name: HP_product_group
+#      scan_interval: 60
+#      address: 9997
+#      slave: 1
+#      input_type: input
+#      
+#    - name: HP_product_info
+#      scan_interval: 60
+#      address: 9998
+#      slave: 1
+#      input_type: input
+    
+      ##holding
+    - name: HP_operation_mode
+      scan_interval: 121
+      address: 0
+      slave: 1
+      input_type: holding
+      
+    - name: HP_control_method
+      scan_interval: 123
+      address: 1
+      slave: 1
+      input_type: holding
+      
+    - name: HP_target_temp_circuit1
+      scale: 0.1
+      precision: 1
+      scan_interval: 17
+      address: 2
+      slave: 1
+      unit_of_measurement: °C
+      input_type: holding
+
+#    - name: HP_room_air_temp_circuit1_holding
+#      scale: 0.1
+#      precision: 1
+#      scan_interval: 120
+#      address: 3
+#      slave: 1
+#      unit_of_measurement: °C
+#      input_type: holding
+#      
+#    - name: HP_shift_value_in_auto_mode_circuit1
+#      scan_interval: 120
+#      address: 4
+#      slave: 1
+#      input_type: holding
+      
+#    - name: HP_target_temp_circuit2
+#      scale: 0.1
+#      precision: 1
+#      scan_interval: 300
+#      address: 5
+#      slave: 1
+#      unit_of_measurement: °C
+#      input_type: holding
+#    
+#    - name: HP_room_air_temp_circuit2_holding
+#      scale: 0.1
+#      precision: 1
+#      scan_interval: 300
+#      address: 6
+#      slave: 1
+#      unit_of_measurement: °C
+#      input_type: holding
+#      
+#    - name: HP_shift_value_in_auto_mode_circuit2
+#      scan_interval: 300
+#      address: 7
+#      slave: 1
+#      input_type: holding
+#    
+      
+#    - name: HP_energy_state_input_holding
+#      scan_interval: 120
+#      address: 9
+#      slave: 1
+#      input_type: holding
+   
+#    - name: HP_test11
+#      scan_interval: 120
+#      address: 10
+#      slave: 1
+#      input_type: holding
+# 
+#    - name: HP_test12
+#      scan_interval: 120
+#      address: 11
+#      slave: 1
+#      input_type: holding
+#
+#    - name: HP_test13
+#      scan_interval: 120
+#      address: 12
+#      slave: 1
+#      input_type: holding
+#
+#    - name: HP_test14
+#      scan_interval: 120
+#      address: 13
+#      slave: 1
+#      input_type: holding
+#
+#    - name: HP_test15
+#      scan_interval: 120
+#      address: 14
+#      slave: 1
+#      input_type: holding
+#
+#    - name: HP_test16
+#      scan_interval: 120
+#      address: 15
+#      slave: 1
+#      input_type: holding
+#
+#    - name: HP_test17
+#      scan_interval: 120
+#      address: 16
+#      slave: 1
+#      input_type: holding
+#      
+#    - name: HP_test18
+#      scan_interval: 120
+#      address: 17
+#      slave: 1
+#      input_type: holding
+#
+#    - name: HP_test19
+#      scan_interval: 120
+#      address: 18
+#      slave: 1
+#      input_type: holding
+#
+#    - name: HP_test20
+#      scan_interval: 120
+#      address: 19
+#      slave: 1
+#      input_type: holding
+#
+#    - name: HP_test21
+#      scan_interval: 120
+#      address: 20
+#      slave: 1
+#      input_type: holding
+#
+#    - name: HP_test22
+#      scan_interval: 120
+#      address: 21
+#      slave: 1
+#      input_type: holding
+#
+#    - name: HP_test23
+#      scan_interval: 120
+#      address: 22
+#      slave: 1
+#      input_type: holding
+#
+#    - name: HP_test63
+#      scan_interval: 120
+#      address: 62
+#      slave: 1
+#      input_type: holding
+#
+#    - name: HP_test64
+#      scan_interval: 120
+#      address: 63
+#      slave: 1
+#      input_type: holding
+
+    binary_sensors:
+      ##coil
+    - name: HP_enable_disable_heating/cooling
+      scan_interval: 10
+      address: 0
+      slave: 1
+    
+#    - name: HP_enable_disable_dhw
+#      scan_interval: 120
+#      address: 1
+#      slave: 1
+      
+    - name: HP_silent_mode_set
+      scan_interval: 10
+      address: 2
+      slave: 1
+      
+#    - name: HP_trigger_desinfection_operation
+#      scan_interval: 120
+#      address: 3
+#      slave: 1
+      
+#    - name: HP_emergency_stop
+#      scan_interval: 120
+#      address: 4
+#      slave: 1
+#      
+#    - name: HP_trigger_emergency_operation
+#      scan_interval: 120
+#      address: 5
+#      slave: 1
+    
+      ## discrete
+    - name: HP_water_flow_status   
+      scan_interval: 10
+      address: 0
+      slave: 1
+      input_type: discrete_input
+      
+    - name: HP_water_pump_status   
+      scan_interval: 10
+      address: 1
+      slave: 1
+      input_type: discrete_input
+      
+#    - name: HP_ext_water_pump_status   
+#      scan_interval: 120
+#      address: 2
+#      slave: 1
+#      input_type: discrete_input
+      
+    - name: HP_compressor_status   
+      scan_interval: 10
+      address: 3
+      slave: 1
+      input_type: discrete_input
+      
+    - name: HP_defrosting_status   
+      scan_interval: 10
+      address: 4
+      slave: 1
+      input_type: discrete_input
+      
+#    - name: HP_dhw_heating_status
+#      scan_interval: 120
+#      address: 5
+#      slave: 1
+#      input_type: discrete_input
+#      
+#    - name: HP_dhw_tank_disinfection_status   
+#      scan_interval: 120
+#      address: 6
+#      slave: 1
+#      input_type: discrete_input
+      
+    - name: HP_silent_mode_status   
+      scan_interval: 10
+      address: 7
+      slave: 1
+      input_type: discrete_input
+      
+    - name: HP_cooling_status   
+      scan_interval: 10
+      address: 8
+      slave: 1
+      input_type: discrete_input
+#      
+#    - name: HP_solar_pump_status   
+#      scan_interval: 120
+#      address: 9
+#      slave: 1
+#      input_type: discrete_input
+#      
+#    - name: HP_backup_heater_step1_status   
+#      scan_interval: 120
+#      address: 10
+#      slave: 1
+#      input_type: discrete_input
+#      
+#    - name: HP_backup_heater_step2_status   
+#      scan_interval: 120
+#      address: 11
+#      slave: 1
+#      input_type: discrete_input
+#      
+#    - name: HP_dhw_boost_heater_status   
+#      scan_interval: 120
+#      address: 12
+#      slave: 1
+#      input_type: discrete_input
+      
+    - name: HP_error_status   
+      scan_interval: 10
+      address: 13
+      slave: 1
+      input_type: discrete_input
+      
+#    - name: HP_emergency_operation_available_space_heating/cooling   
+#      scan_interval: 120
+#      address: 14
+#      slave: 1
+#      input_type: discrete_input
+      
+#    - name: HP_emergency_operation_available_dhw   
+#      scan_interval: 120
+#      address: 15
+#      slave: 1
+#      input_type: discrete_input
+      
+#    - name: HP_mix_pump_status   
+#      scan_interval: 120
+#      address: 16
+#      slave: 1
+#      input_type: discrete_input
