@@ -12,5 +12,5 @@
       hub: HP_modbus_hub
       slave: 1
       address: 2
-      value: '{{ states(''sensor.stooklijn_target'') | float(20) * 10 }} '
+      value: '{{ states(''sensor.stooklijn_target'') | float(20) | round(0) * 10 }} '
   mode: single
