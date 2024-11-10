@@ -8,3 +8,6 @@ This folder contains the basic implementation of the modbus communication and th
 
 ## Hotstart
 This folder contains an overshoot control for the startup of the heatpump
+
+## Thermostat and nightmode
+This folder contains a simple room thermostat with hysteresis, and a nightmode (temperature reduction) with a schedule

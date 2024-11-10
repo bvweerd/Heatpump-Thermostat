@@ -1,0 +1,129 @@
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+modbus: !include modbus.yaml
+
+input_number:
+  stooklijn_min_oat:
+    name: "Stooklijn Minimum Buitentemperatuur"
+    min: -15
+    max: 4
+    step: 1
+    unit_of_measurement: "°C"
+    mode: box
+  stooklijn_max_oat:
+    name: "Stooklijn Maximum Buitentemperatuur"
+    min: 5
+    max: 20
+    step: 1
+    unit_of_measurement: "°C"
+    mode: box
+  stooklijn_max_wtemp:
+    name: "Stooklijn Maximum Watertemperatuur"
+    min: 31
+    max: 50
+    step: 1
+    unit_of_measurement: "°C"
+    mode: box
+  stooklijn_min_wtemp:
+    name: "Stooklijn Minimum Watertemperatuur"
+    min: 20
+    max: 30
+    step: 1
+    unit_of_measurement: "°C"
+    mode: box
+  hp_hotstart_offset:
+    name: "HP Hotstart offset"
+    min: 0
+    max: 10
+    step: 1
+    unit_of_measurement: "°C"
+    mode: box
+  thermostat_target:
+    name: "Thermostaat doeltemperatuur"
+    min: 12
+    max: 24
+    step: 1
+    unit_of_measurement: "°C"
+    mode: box
+  thermostat_hysteresis:
+    name: "Thermostaat hysterese"
+    min: 0
+    max: 1
+    step: 0.1
+    unit_of_measurement: "°C"
+    mode: box
+  stooklijn_nachtverlaging:
+    name: "Stooklijn nachtverlaging"
+    min: -5
+    max: 0
+    step: 1
+    unit_of_measurement: "°C"
+    mode: box
+
+schedule:
+  thermostat_schedule:
+    name: "Thermostat schedule"
+    monday:
+      - from: "09:00:00"
+        to: "21:00:00"
+    tuesday:
+      - from: "09:00:00"
+        to: "21:00:00"
+    wednesday:
+      - from: "09:00:00"
+        to: "21:00:00"
+    thursday:
+      - from: "09:00:00"
+        to: "21:00:00"
+    friday:
+      - from: "09:00:00"
+        to: "23:00:00"
+    saturday:
+      - from: "09:00:00"
+        to: "21:00:00"
+    sunday:
+      - from: "09:00:00"
+        to: "21:00:00"
+        
+template:
+  - sensor:
+      - name: "Binnentemperatuur placeholder"
+        unique_id: Binnentemperatuur_placeholder_id
+        unit_of_measurement: "°C"
+        state: >
+          {{ 20 }}        
+      - name: "Stooklijn Target"
+        unique_id: Stooklijn_Target_id
+        unit_of_measurement: "°C"
+        state: >
+          {% set oat = states('sensor.HP_outdoor_air_temp') | float(0) %}
+          {% set  z = ((states('input_number.stooklijn_min_wtemp') | float(0)) - (states('input_number.stooklijn_max_wtemp') | float(0) )) / ((states('input_number.stooklijn_max_oat') | float(0) ) - (states('input_number.stooklijn_min_oat') | float(0) )) %}
+          {% if oat < (states('input_number.stooklijn_min_oat') | float(0)) %}
+          {% set oat = states('input_number.stooklijn_min_oat') | float(0) %}
+          {% endif %}
+          {% if oat > (states('input_number.stooklijn_max_oat') | float(0)) %}
+          {% set oat = states('input_number.stooklijn_max_oat') | float(0) %}
+          {% endif %}
+          {{ (z * (oat - states('input_number.stooklijn_min_oat') | float(0) ) + (states('input_number.stooklijn_max_wtemp') | float(0) )) | round(default=20) }}
+      - name: "HP watertemperatuur setpoint"
+        unique_id: hp_watertemperatuur_setpoint_id
+        unit_of_measurement: "°C"
+        state: >
+          {% set stooklijn_target = states('sensor.stooklijn_target') | float(0) %}
+          {% set hotstart_offset  = states('input_number.hp_hotstart_offset') | float(0) %}
+          {% if states('schedule.thermostat_schedule') %}
+          {% set nightreduction = 0 %}
+          {% else %}
+          {% set nightreduction = states('stooklijn_nachtverlaging') | float(0) %}          
+          {% endif %}        
+          {{ (stooklijn_target + hotstart_offset + nightreduction) | round(0)}}
+       
