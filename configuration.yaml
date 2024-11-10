@@ -1,3 +1,5 @@
+modbus: !include modbus.yaml
+
 input_number:
   stooklijn_min_oat:
     name: "Stooklijn Minimum Buitentemperatuur"
