@@ -1,0 +1,56 @@
+- id: '1731173374620'
+  alias: HP watertemperatuur setpoint
+  description: ''
+  triggers:
+  - entity_id:
+    - sensor.stooklijn_target
+    trigger: state
+  conditions: []
+  actions:
+  - action: modbus.write_register
+    data:
+      hub: HP_modbus_hub
+      slave: 1
+      address: 2
+      value: '{{ (states(''sensor.stooklijn_target'') | float(0) + states(''input_number.hp_hotstart_offset'')
+        | float(0)) | round(0) * 10 }} '
+  mode: single
+- id: '1696873855292'
+  alias: HP Hotstart
+  description: ''
+  triggers:
+  - trigger: template
+    value_template: '{{ (states(''sensor.hp_water_outlet_temp'') | float(0) -
+      (states(''input_number.hp_hotstart_offset'') | float(0) + states(''sensor.stooklijn_target'')
+      | float(0))) > 3}}'
+  - trigger: template
+    value_template: '{{ (states(''sensor.hp_water_outlet_temp'') | float(0) -
+      (states(''input_number.hp_hotstart_offset'') | float(0) + states(''sensor.stooklijn_target'')
+      | float(0))) < 2}}'
+  actions:
+  - repeat:
+      sequence:
+      - data: {}
+        target:
+          entity_id: input_number.hp_hotstart_offset
+        action: input_number.increment
+      while:
+      - condition: template
+        value_template: '{{ ((states(''sensor.hp_water_outlet_temp'') | float(0)
+          - (states(''input_number.hp_hotstart_offset'') | float(0) + states(''sensor.stooklijn_target'')
+          | float(0)))) > 3 }}'
+  - repeat:
+      sequence:
+      - data: {}
+        target:
+          entity_id: input_number.hp_hotstart_offset
+        action: input_number.decrement
+      while:
+      - condition: template
+        value_template: '{{ ((states(''sensor.hp_water_outlet_temp'') | float(0)
+          - (states(''input_number.hp_hotstart_offset'') | float(0) + states(''sensor.stooklijn_target'')
+          | float(0)))) < 2 }}'
+      - condition: numeric_state
+        entity_id: input_number.hp_hotstart_offset
+        above: 0
+  mode: single
