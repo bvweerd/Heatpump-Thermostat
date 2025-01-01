@@ -15,7 +15,7 @@ conditions:
     entity_id: switch.hp_switch_onoff
     state: "on"
   - condition: numeric_state
-    entity_id: sensor.outdoor_temperature
+    entity_id: sensor.Buitentemperatuur_placeholder
     below: 6
 actions:
   - wait_for_trigger:
@@ -29,12 +29,12 @@ actions:
       minutes: 20
       seconds: 0
       milliseconds: 0
-    enabled: true
   - data: {}
     target:
       entity_id: switch.hp_switch_silent
     action: switch.turn_off
 mode: single
+
 alias: HP - Silent mode aan bij defrost
 description: ""
 triggers:
@@ -45,7 +45,6 @@ triggers:
   - entity_id:
       - sensor.hp_compressor_hz
     above: 45
-    enabled: false
     trigger: numeric_state
   - entity_id:
       - switch.hp_switch_onoff
