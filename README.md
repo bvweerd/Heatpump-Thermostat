@@ -15,4 +15,4 @@ This folder contains a simple room thermostat with hysteresis, and a nightmode (
 ## Silent mode
 This folder contains 2 automations to control the silent mode of the heatpump, depending on the outdoor temperature, defrost status and compressor speed. 
 
-Efficiency increases when silent mode is off in the defrosting region. The frequency limit will prevent the heatpump to rage to high frequencies if you prefer not to.
+Efficiency increases when silent mode is off in the defrosting region. The frequency limit will prevent the heatpump to rage to high frequencies if you prefer not to. Note that if the target temperature cannot be reached in silent mode in about 12 minutes, it would be more benificial to disable the silent mode.
